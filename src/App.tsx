@@ -1,4 +1,13 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { 
+  useState, 
+  useEffect, 
+  useMemo, 
+  useCallback,
+  useRef,
+  useContext,
+  useImperativeHandle,
+  useReducer
+} from 'react';
 
 interface User {
   name: string;
@@ -7,6 +16,7 @@ interface User {
 }
 
 const App: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [users, setUsers] = useState<User[]>();
 
   const names = useMemo(() => users?.map(user => user.name).join(', ') || '', [users]);
@@ -14,6 +24,16 @@ const App: React.FC = () => {
   const greeting = useCallback(
     (user: User) => alert(`Hello ${user.name}`),
     []
+  );
+
+  function focusOnInput() {
+    inputRef.current?.focus();
+  }
+
+  return (
+    <form action="">
+      <input type="text" ref={inputRef} />
+    </form>
   )
 }
 
