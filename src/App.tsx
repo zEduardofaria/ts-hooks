@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 interface User {
   name: string;
@@ -7,20 +7,14 @@ interface User {
 }
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<User>();
+  const [users, setUsers] = useState<User[]>();
 
-  async function loadData() {
-    const response = await fetch('https://api.github.com/users/zEduardofaria');
-    const data = await response.json();
+  const names = useMemo(() => users?.map(user => user.name).join(', ') || '', [users]);
 
-    setUser(data);
-  }
-
-  return (
-    <div>
-      {user?.name}
-    </div>
-  );
+  const greeting = useCallback(
+    (user: User) => alert(`Hello ${user.name}`),
+    []
+  )
 }
 
 export default App;
